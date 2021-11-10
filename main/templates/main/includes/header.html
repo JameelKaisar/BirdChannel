@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en-US">
+
+<head>
+  <title>{% if title %}{{ title }} - Bird Channel{% else %}Bird Channel{% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="{% static 'main/icons/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'main/icons/icon.css' %}">
+  <link rel="stylesheet" href="{% static 'main/css/materialize.min.css' %}">
+  <link rel="stylesheet" href="{% static 'main/css/breadcrumbs.css' %}">
+  <link rel="stylesheet" href="{% static 'main/css/custom.css' %}">
+  <script src="{% static 'main/js/materialize.min.js' %}"></script>
+</head>
+
+<body>
+
+  {% include "main/includes/navbar.html" %}
+
+  {% include "main/includes/messages.html" %}  
+
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  {% include "main/includes/footer.html" %}
+
+  <script>
+    M.AutoInit();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+{% extends "main/includes/header.html" %}
+
+{% block content %}
+    <div class="z-depth-1">
+        <ul class="breadcrumbs">
+            <li><a href="/">Home</a></li>
+            <li><b>Admin Section</b></li>
+        </ul>
+    </div>
+
+    <ul class="collapsible">
+        <li class="{% if open == 'mb' %}active{% endif %}">
+            <div class="collapsible-header"><i class="material-icons">verified_user</i>Manage Birders</div>
+            <div class="collapsible-body">
+                <p>
+                    <div class="card card-panel grey lighten-5 z-depth-1">
+                        {% for b in page_obj_birders %}
+                            <p>
+                                <!-- <a href="/student-feed/profiles/{{ b.username }}" style="color: inherit; text-decoration: inherit;"> -->
+                                    <b>{{ b.username }}</b>
+                                <!-- </a> -->
+                                [ <a href="#modalmb{{ forloop.counter }}"  class="modal-trigger">Demote as Birder</a> ]
+                            </p>
+                            <div id="modalmb{{ forloop.counter }}" class="modal">
+                                <div class="modal-content">
+                                    <h4>Confirmation</h4>
+                                    <p>Are you sure you want to demote {{ b.username }} as birder?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="data_type" value="mb">
+                                        <input type="hidden" name="data_id" value="{{ b.id }}">
+                                        <input type="hidden" name="data_act" value="0">
+                                        <input type="hidden" name="data_page" value="{{ page_obj_birders.number }}">
+                                        <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                                    </form>
+                                    <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div align="center">
+                                <span class="card-title"><b>This section is empty!</b></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if page_obj_birders %}
+                        <div align="center">
+                            <ul class="pagination">
+                                {% if page_obj_birders.has_previous %}
+                                    <li class="waves-effect"><a href="?open=mb&page=1"><i class="material-icons">first_page</i></a></li>
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                                {% else %}
+                                    <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
+                                    <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+                                {% endif %}
+                                {% if page_obj_birders.number|add:'-2' > 0 %}
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.number|add:'-2' }}">{{ page_obj_birders.number|add:'-2' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_birders.number|add:'-1' > 0 %}
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.number|add:'-1' }}">{{ page_obj_birders.number|add:'-1' }}</a></li>
+                                {% endif %}
+                                <li class="active"><a>{{ page_obj_birders.number }}</a></li>
+                                {% if page_obj_birders.number|add:'1' <= page_obj_birders.paginator.num_pages %}
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.number|add:'1' }}">{{ page_obj_birders.number|add:'1' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_birders.number|add:'2' <= page_obj_birders.paginator.num_pages %}
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.number|add:'2' }}">{{ page_obj_birders.number|add:'2' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_birders.has_next %}
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="waves-effect"><a href="?open=mb&page={{ page_obj_birders.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
+                                {% else %}
+                                    <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </p>
+            </div>
+        </li>
+        <li class="{% if open == 'mu' %}active{% endif %}">
+            <div class="collapsible-header"><i class="material-icons">person</i>Manage Users</div>
+            <div class="collapsible-body">
+                <p>
+                    <div class="card card-panel grey lighten-5 z-depth-1">
+                        {% for u in page_obj_users %}
+                            <p>
+                                <!-- <a href="/student-feed/profiles/{{ u.username }}" style="color: inherit; text-decoration: inherit;"> -->
+                                    <b>{{ u.username }}</b>
+                                <!-- </a> -->
+                                [ <a href="#modalmu1{{ forloop.counter }}"  class="modal-trigger">{% if birder_group in u.groups.all %}Demote as Birder{% else %}Promote to Birder{% endif %}</a> ]
+                                [ <a href="#modalmu2{{ forloop.counter }}"  class="modal-trigger" style="color: red;">Delete User</a> ]
+                            </p>
+                            <div id="modalmu1{{ forloop.counter }}" class="modal">
+                                <div class="modal-content">
+                                    <h4>Confirmation</h4>
+                                    <p>{% if birder_group in u.groups.all %}Are you sure you want to demote {{ u.username }} as birder?{% else %}Are you sure you want to promote {{ u.username }} to birder?{% endif %}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="data_type" value="mu">
+                                        <input type="hidden" name="data_id" value="{{ u.id }}">
+                                        <input type="hidden" name="data_act" value="{% if birder_group in u.groups.all %}0{% else %}1{% endif %}">
+                                        <input type="hidden" name="data_page" value="{{ page_obj_users.number }}">
+                                        <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                                    </form>
+                                    <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                                </div>
+                            </div>
+                            <div id="modalmu2{{ forloop.counter }}" class="modal">
+                                <div class="modal-content">
+                                    <h4>Confirmation</h4>
+                                    <p>Are you sure you want to delete user {{ u.username }}?<br>All the data uploaded by {{ u.username }} will also be deleted.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="data_type" value="mu">
+                                        <input type="hidden" name="data_id" value="{{ u.id }}">
+                                        <input type="hidden" name="data_act" value="2">
+                                        <input type="hidden" name="data_page" value="{{ page_obj_users.number }}">
+                                        <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                                    </form>
+                                    <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div align="center">
+                                <span class="card-title"><b>This section is empty!</b></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if page_obj_users %}
+                        <div align="center">
+                            <ul class="pagination">
+                                {% if page_obj_users.has_previous %}
+                                    <li class="waves-effect"><a href="?open=mu&page=1"><i class="material-icons">first_page</i></a></li>
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                                {% else %}
+                                    <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
+                                    <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+                                {% endif %}
+                                {% if page_obj_users.number|add:'-2' > 0 %}
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.number|add:'-2' }}">{{ page_obj_users.number|add:'-2' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_users.number|add:'-1' > 0 %}
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.number|add:'-1' }}">{{ page_obj_users.number|add:'-1' }}</a></li>
+                                {% endif %}
+                                <li class="active"><a>{{ page_obj_users.number }}</a></li>
+                                {% if page_obj_users.number|add:'1' <= page_obj_users.paginator.num_pages %}
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.number|add:'1' }}">{{ page_obj_users.number|add:'1' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_users.number|add:'2' <= page_obj_users.paginator.num_pages %}
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.number|add:'2' }}">{{ page_obj_users.number|add:'2' }}</a></li>
+                                {% endif %}
+                                {% if page_obj_users.has_next %}
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="waves-effect"><a href="?open=mu&page={{ page_obj_users.paginator.num_pages }}"><i class="material-icons">last_page</i></a></li>
+                                {% else %}
+                                    <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                                    <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </p>
+            </div>
+        </li>
+        <li class="{% if open == 'md' %}active{% endif %}">
+            <div class="collapsible-header"><i class="material-icons">cloud_done</i>Manage Database</div>
+            <div class="collapsible-body">
+                <div class="card card-panel grey lighten-5 z-depth-1" align="center">
+                    <p>
+                        <span class="card-title"><b>Take Full Backup (Recommended)</b></span>
+                        <p>
+                            This includes the data stored in the database along with all the static files like images, videos, audios and other files.
+                            <br>
+                            It can take long time depending on the size of data.
+                        </p>
+                        <div>
+                            <a href="#modalmd1" class="modal-trigger btn orange darken-4"><i class="material-icons left">backup</i>Take Full Backup</a>
+                        </div>
+                    </p>
+                </div>
+                <div id="modalmd1" class="modal">
+                    <div class="modal-content">
+                        <h4>Confirmation</h4>
+                        <p>Are you sure you want to take full backup?<br>It can take long time depending on the size of data.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="data_type" value="md">
+                            <input type="hidden" name="data_act" value="1">
+                            <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                        </form>
+                        <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                    </div>
+                </div>
+                <div class="card card-panel grey lighten-5 z-depth-1" align="center">
+                    <p>
+                        <span class="card-title"><b>Take Database Backup Only</b></span>
+                        <p>
+                            This includes the data stored in the database. The static files like images, videos, audios and other files are not included.
+                            <br>
+                            It will take relatively shorter period of time than Full Backup.
+                        </p>
+                        <div>
+                            <a href="#modalmd2" class="modal-trigger btn orange darken-4"><i class="material-icons left">backup</i>Take Database Backup Only</a>
+                        </div>
+                    </p>
+                </div>
+                <div id="modalmd2" class="modal">
+                    <div class="modal-content">
+                        <h4>Confirmation</h4>
+                        <p>Are you sure you want to take backup of database only?<br>It will take relatively shorter period of time than Full Backup.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="data_type" value="md">
+                            <input type="hidden" name="data_act" value="2">
+                            <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                        </form>
+                        <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                    </div>
+                </div>
+                <div class="card card-panel grey lighten-5 z-depth-1" align="center">
+                    <p>
+                        <span class="card-title"><b>Restore Backup</b></span>
+                        <p>
+                            It can take long time depending on the size of data.
+                            <br>
+                            It is highly recommended to take a Full Backup before doing this.
+                        </p>
+                        <p>
+                            <label for="id_data_file" class="btn">Choose Backup File</label>
+                        </p>
+                        <div>
+                            <a href="#modalmd3" class="modal-trigger btn orange darken-4"><i class="material-icons left">settings_backup_restore</i>Restore Backup</a>
+                        </div>
+                    </p>
+                </div>
+                <div id="modalmd3" class="modal">
+                    <div class="modal-content">
+                        <h4>Confirmation</h4>
+                        <p>Are you sure you want to restore the backup?<br>It is highly recommended to take a Full Backup before doing this.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" enctype="multipart/form-data" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="data_type" value="md">
+                            <input type="hidden" name="data_act" value="3">
+                            <input type="file" name="data_file" style="display: none;" id="id_data_file">
+                            <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                        </form>
+                        <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                    </div>
+                </div>
+                <div class="card card-panel grey lighten-5 z-depth-1" align="center">
+                    <p>
+                        <span class="card-title"><b>Erase Full Data</b></span>
+                        <p>
+                            This will erase the data stored in the database along with all the static files like images, videos, audios and other files.
+                            <br>
+                            It is highly recommended to take a Full Backup before doing this.
+                        </p>
+                        <p>
+                            <div align="left">
+                                <label for="id_data_pass">Password:</label>
+                                <input type="password" name="data_pass" autocomplete="current-password" id="id_data_pass" form="erase-form">
+                            </div>
+                        </p>
+                        <div>
+                            <a href="#modalmd4" class="modal-trigger btn orange darken-4"><i class="material-icons left">delete_forever</i>Erase Full Data</a>
+                        </div>
+                    </p>
+                </div>
+                <div id="modalmd4" class="modal">
+                    <div class="modal-content">
+                        <h4>Confirmation</h4>
+                        <p>Are you sure you want to erase full data?<br>It is highly recommended to take a Full Backup before doing this.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" style="display: inline;" id="erase-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="data_type" value="md">
+                            <input type="hidden" name="data_act" value="4">
+                            <button type="submit" class="waves-effect waves-red btn-flat">Yes</button>
+                        </form>
+                        <button href="#!" class="modal-close waves-effect waves-green btn-flat">No</button>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="{% if open == 'hs' %}active{% endif %}">
+            <div class="collapsible-header"><i class="material-icons">help</i>Help Section</div>
+            <div class="collapsible-body">
+                <p>
+                    Help Section
+                </p>
+            </div>
+        </li>
+        <li class="{% if open == 'dap' %}active{% endif %}">
+            <div class="collapsible-header"><i class="material-icons">device_hub</i>Django Admin Panel</div>
+            <div class="collapsible-body">
+                <p>
+                    <div align="center">
+                        <a href="/admin/django" target="_blank" class="btn orange darken-4"><i class="material-icons left">device_hub</i>View Django Admin Panel</a>
+                    </div>
+                </p>
+            </div>
+        </li>
+    </ul>
+{% endblock %}

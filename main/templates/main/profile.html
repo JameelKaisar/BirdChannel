@@ -1,0 +1,32 @@
+{% extends "main/includes/header.html" %}
+
+{% block content %}
+    <div class="z-depth-1">
+        <ul class="breadcrumbs">
+            <li><a href="/">Home</a></li>
+            <li><b>Profile</b></li>
+        </ul>
+    </div>
+
+    <div class="card card-panel grey lighten-5 z-depth-1">
+        <h3 align="center">{{ user.username }}</h3>
+        <div class="divider"></div>
+        <table class="highlight centered">
+            <tbody>
+                <tr>
+                    <td>Username</td>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <td>Joined</td>
+                    <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <div align="center">
+                <a href="/change-password" class="btn waves-light"><i class="material-icons left">lock</i>Change Password</a>
+            </div>
+        </p>
+    </div>
+{% endblock %}

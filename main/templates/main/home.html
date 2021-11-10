@@ -1,0 +1,153 @@
+{% extends "main/includes/header.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="row" style="display: block; margin-bottom: 0px;">
+        <div class="col s12 m12 l10 offset-l1">
+            <div class="carousel carousel-slider no-autoinit c-top">
+                <div class="carousel-fixed-item center">
+                    <a href="/birds" class="btn waves-effect white grey-text darken-text-2">View All Birds</a>
+                </div>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/1.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/2.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/3.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/4.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/5.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/6.png' %}"></a>
+                <a class="carousel-item"><img src="{% static 'main/images/carousel/7.png' %}"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container" style="position: absolute; left: 0; right: 0; width: 100%; height: 300px; box-shadow: inset 0 0 0 100vmax rgba(0,0,0,.5);">
+        <div class="parallax"><img src="{% static 'main/images/bird-channel.png' %}"></div>
+    </div>
+    <div style="height: 300px;"></div>
+
+    <div class="row" style="margin-top: -100px;">
+        <a href="/birds" style="display: block; color: inherit; text-decoration: inherit;">
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'main/images/birds-section.jpg' %}">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0px -70px 100px -10px #000000;"></div>
+                        <span class="card-title"><b>Birds Section</b></span>
+                        <a href="#modal1" class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i class="material-icons">info_outline</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3em; line-height: 1.5;">Some Text About Birds Section and Some Text About Birds Section and Some Text About Birds Section.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Birds Section</h4>
+                <p>Some Text About Birds Section and Some Text About Birds Section and Some Text About Birds Section.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <a href="/conservation" style="display: block; color: inherit; text-decoration: inherit;">
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'main/images/bird-conservation.jpg' %}">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0px -70px 100px -10px #000000;"></div>
+                        <span class="card-title"><b>Bird Conservation</b></span>
+                        <a href="#modal2" class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i class="material-icons">info_outline</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3em; line-height: 1.5;">Some Text About Bird Conservation and Some Text About Bird Conservation and Some Text About Bird Conservation.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <h4>Bird Conservation</h4>
+                <p>Some Text About Bird Conservation and Some Text About Bird Conservation and Some Text About Bird Conservation.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <a href="/birding" style="display: block; color: inherit; text-decoration: inherit;">
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{% static 'main/images/birding-basics.png' %}">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0px -70px 100px -10px #000000;"></div>
+                        <span class="card-title"><b>Birding Basics</b></span>
+                        <a href="#modal3" class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i class="material-icons">info_outline</i></a>
+                    </div>
+                    <div class="card-content">
+                        <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3em; line-height: 1.5;">Some Text About Birding Basics and Some Text About Birding Basics and Some Text About Birding Basics.</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div id="modal3" class="modal">
+            <div class="modal-content">
+                <h4>Birding Basics</h4>
+                <p>Some Text About Birding Basics and Some Text About Birding Basics and Some Text About Birding Basics.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        {% if user.is_superuser %}
+            <a href="/admin" style="display: block; color: inherit; text-decoration: inherit;">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{% static 'main/images/admin-section.png' %}">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0px -70px 100px -10px #000000;"></div>
+                            <span class="card-title"><b>Admin Section</b></span>
+                            <a href="#modala1" class="btn-floating halfway-fab waves-effect waves-light red modal-trigger"><i class="material-icons">info_outline</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3em; line-height: 1.5;">Some Text About Admin Section and Some Text About Admin Section and Some Text About Admin Section.</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <div id="modala1" class="modal">
+                <div class="modal-content">
+                    <h4>Admin Section</h4>
+                    <p>Some Text About Admin Section and Some Text About Admin Section and Some Text About Admin Section.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="carousel no-autoinit c-btm">
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/1.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/2.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/3.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/4.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/5.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/6.png' %}"></a>
+        <a class="carousel-item" style="width:350px !important;"><img src="{% static 'main/images/carousel/7.png' %}"></a>
+    </div>
+
+    <script type="text/javascript">
+        // Auto Scroll
+        document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.carousel.c-top');
+        var instances = M.Carousel.init(elems, {fullWidth: true, indicators: true});
+        addAutoScroll(instances[0]);
+        var elems = document.querySelectorAll('.carousel.c-btm');
+        var instances = M.Carousel.init(elems, {numVisible: 5, dist: -100});
+        addAutoScroll(instances[0]);
+    });
+        function addAutoScroll(instance) {
+            instance.next();
+            setTimeout(addAutoScroll, 3000, instance);
+        }
+    </script>
+{% endblock %}

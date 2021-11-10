@@ -22,6 +22,20 @@ app_name = "main"
 
 urlpatterns = [
     path("", views.homepage, name="homepage"),
+    path("about/", views.aboutpage, name="aboutpage"),
+    path("contact/", views.contactpage, name="contactpage"),
+    path("help/", views.helppage, name="helppage"),
+    path("register/", views.register, name="register"),
+    path("login/", views.login_request, name="login_request"),
+    path("change-password/", views.change_password, name="change_password"),
+    path("logout/", views.logout_request, name="logout"),
+    path("profile/", views.profile, name="profile"),
+    path("admin/", views.admin_section, name="admin_section"),
+    path("birds/", views.birds_section, name="birds_section"),
+    path("conservation/", views.birds_conservation, name="birds_conservation"),
+    path("birding/", views.birding_basics, name="birding_basics"),
+    path("delete-data", views.delete_data, name="delete_data"),
+    path("edit-data", views.edit_data, name="edit_data"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
