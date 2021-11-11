@@ -32,8 +32,10 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("admin/", views.admin_section, name="admin_section"),
     path("birds/", views.birds_section, name="birds_section"),
-    path("conservation/", views.birds_conservation, name="birds_conservation"),
-    path("birding/", views.birding_basics, name="birding_basics"),
+    path("conservation/", views.conservation_categories, name="conservation_categories"),
+    path("conservation/<slug:category_slug>", views.conservation_content, name="conservation_content"),
+    path("birding/", views.birding_categories, name="birding_categories"),
+    path("birding/<slug:category_slug>", views.birding_content, name="birding_content"),
     path("delete-data", views.delete_data, name="delete_data"),
     path("edit-data", views.edit_data, name="edit_data"),
 ]
